@@ -1,0 +1,49 @@
+const sql = require('../../database');
+
+class Crimes {
+
+  getAllWeaponsOfCrimes() {
+    const result = sql.doQuery(`SELECT TX_MODEL model 
+                                FROM WEAPON WHERE EXISTS 
+                                  (SELECT 1 
+                                      FROM WEAPON_CRIME 
+                                      WHERE ID_WEAPON = WEAPON.ID_WEAPON)`);
+
+    return result;
+  }
+
+  getInfoById(crimeId) {
+    const result = sql.doQuery(`
+      SELECT CRIME.ID_CRIME, 
+	    	CRIME.TX_COUNTRY PAIS, 
+        CRIME.DT_CRIME, 
+        CRIME_TYPE.TX_TYPE CRIME_TYPE, 
+        CRIMINAL.TX_NAME CRIMINAL_NAME, 
+        WEAPON.TX_MODEL WEAPON_MODEL, 
+        WEAPON_TYPE.TX_WEAPON_TYPE WEAPON_TYPE, 
+        VICTIM.TX_NAME VICTIM_NAME
+	FROM CRIME 
+	INNER JOIN CRIMINAL_CRIME 
+		ON CRIME.ID_CRIME = CRIMINAL_CRIME.ID_CRIME 
+	INNER JOIN CRIME_TYPE 
+		ON CRIMINAL_CRIME.ID_CRIME_TYPE = CRIME_TYPE.ID_CRIME_TYPE
+	INNER JOIN CRIMINAL 
+		ON CRIMINAL_CRIME.ID_CRIMINAL = CRIMINAL.ID_CRIMINAL
+	INNER JOIN WEAPON_CRIME 
+		ON WEAPON_CRIME.ID_CRIME = CRIME.ID_CRIME
+	INNER JOIN WEAPON 
+		ON WEAPON.ID_WEAPON = WEAPON_CRIME.ID_WEAPON 
+	INNER JOIN WEAPON_TYPE 
+		ON WEAPON_TYPE.ID_WEAPON_TYPE = WEAPON.ID_WEAPON_TYPE
+	INNER JOIN VICTIM_CRIME 
+		ON VICTIM_CRIME.ID_CRIME = CRIME.ID_CRIME
+	INNER JOIN VICTIM 
+		ON VICTIM.ID_VICTIM = VICTIM_CRIME.ID_VICTIM_CRIME
+  WHERE CRIME.ID_CRIME = ${crimeId}`);
+
+    return result;
+  }
+
+}
+
+module.exports = new Crimes();
