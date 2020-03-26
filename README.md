@@ -9,10 +9,10 @@ presente nos requisitos abaixo, sinta-se livre para fazê-la.</p>
 <p>Não fazer utilização de ORM</p>
 <br>
 <h3>Requisitos Funcionais</h2>
-<li>
-  <ul>Trazer todas as armas que já foram utilizadas em algum crime.</ul>
-  <ul>Trazer todas as informações acerca de um determinado crime (vítimas, armas,criminosos, país e data).</ul>
-  <ul>Inserir um novo crime com todas as suas informações agregadas (armas,vítimas, criminosos).</ul>
-  <ul>Remover um crime do sistema.</ul>
-</li>
+<ul>
+  <li>Trazer todas as armas que já foram utilizadas em algum crime.</li>
+  <li>Trazer todas as informações acerca de um determinado crime (vítimas, armas,criminosos, país e data).</li>
+  <li>Inserir um novo crime com todas as suas informações agregadas (armas,vítimas, criminosos).</li>
+  <li>Remover um crime do sistema.</ul>
+</ul>
  
