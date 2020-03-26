@@ -3,11 +3,8 @@
 funcionalidades a seguir. Caso sinta necessidade de alguma rota que não está
 presente nos requisitos abaixo, sinta-se livre para fazê-la.</p>
 <h3>Tecnologias: Node JS, MYSQL, Express</h2>
-<br>
-<br>
 <h3>Restrição</h2>
 <p>Não fazer utilização de ORM</p>
-<br>
 <h3>Requisitos Funcionais</h2>
 <ul>
   <li>Trazer todas as armas que já foram utilizadas em algum crime.</li>
