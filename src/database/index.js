@@ -1,12 +1,13 @@
 const mysql = require('mysql');
+const dbConfig = require('../config/db');
 
 class Database {
   constructor() {
     this.connection = mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: '',
-      database: 'police'
+      host: dbConfig.host,
+      user: dbConfig.user,
+      password: dbConfig.password,
+      database: dbConfig.database
     });
 
     this.connection.connect(err => {
@@ -31,7 +32,7 @@ class Database {
   async doQueryParams(queryToDo, array) {
     let pro = new Promise((resolve, reject) => {
       let query = queryToDo;
-      this.db.query(query, array, function (err, result) {
+      this.connection.query(query, array, function (err, result) {
         if (err) throw err;
         resolve(result);
       });

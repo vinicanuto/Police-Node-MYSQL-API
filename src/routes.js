@@ -8,6 +8,10 @@ const routes = new Router();
 
 routes.get('/crimes/weapons', CrimeController.getAllWeaponsOfCrime);
 
-routes.get('/crime/:crimeId', CrimeController.getInfoById);
+routes.get('/crimes/:crimeId', CrimeController.getInfoById);
+
+routes.delete('/crimes/:crimeId', CrimeController.deleteCrime);
+
+routes.post('/crimes', CrimeController.createCrime);
 
 module.exports = routes;  

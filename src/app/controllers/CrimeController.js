@@ -3,6 +3,10 @@ const Crime = require('../models/Crime');
 class CrimeController {
   async getInfoById(req, res) {
     const { crimeId } = req.params;
+    if (!crimeId) {
+      return res.status(400)
+        .json({ error: 'Id do crime não informado' })
+    }
 
     const infos = await Crime.getInfoById(crimeId);
 
@@ -18,6 +22,28 @@ class CrimeController {
     }
 
     return res.send(weaponsOfCrimes);
+  }
+
+  async deleteCrime(req, res) {
+    const { crimeId } = req.params;
+
+    const { affectedRows } = await Crime.deleteCrime(crimeId);
+
+    if (affectedRows < 1) {
+      return res.status(400).json({
+        error:
+          `Não foi possível deletar o crime de id ${crimeId}.`
+      });
+    } else {
+      return res.json({ message: 'Crime deletado com sucesso' });
+    }
+
+  }
+
+  async createCrime(req, res) {
+    const result = await Crime.createCrime(req.body);
+
+    return res.json('ok');
   }
 }
 
