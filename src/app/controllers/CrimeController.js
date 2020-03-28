@@ -43,7 +43,10 @@ class CrimeController {
   async createCrime(req, res) {
     const result = await Crime.createCrime(req.body);
 
-    return res.json('ok');
+    if (!result) {
+      return res.status(400).json({ error: 'Não foi possível realizar esse cadastro' });
+    }
+    return res.json({ message: 'Crime criado com sucesso' });
   }
 }
 
