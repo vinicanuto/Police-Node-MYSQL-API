@@ -8,9 +8,12 @@ class CrimeController {
         .json({ error: 'Id do crime não informado' })
     }
 
-    const infos = await Crime.getInfoById(crimeId);
+    const crime = await Crime.getCrimeById(crimeId);
+    const weaponCrime = await Crime.getWeaponByCrimeId(crimeId);
+    const criminalCrime = await Crime.getCriminalByCrimeId(crimeId);
+    const victimCrime = await Crime.getVictimByCrimeId(crimeId);
 
-    return res.send(infos);
+    return res.json({ crime, weaponCrime, criminalCrime, victimCrime });
   }
   async getAllWeaponsOfCrime(req, res) {
     const weaponsOfCrimes = await Crime.getAllWeaponsOfCrimes();

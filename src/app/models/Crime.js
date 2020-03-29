@@ -12,34 +12,48 @@ class Crimes {
     return result;
   }
 
-  async getInfoById(crimeId) {
-    const result = await sql.doQuery(`
-      SELECT CRIME.ID_CRIME, 
-	    	CRIME.TX_COUNTRY PAIS, 
-        CRIME.DT_CRIME, 
-        CRIME_TYPE.TX_TYPE CRIME_TYPE, 
-        CRIMINAL.TX_NAME CRIMINAL_NAME, 
-        WEAPON.TX_MODEL WEAPON_MODEL, 
-        WEAPON_TYPE.TX_WEAPON_TYPE WEAPON_TYPE, 
-        VICTIM.TX_NAME VICTIM_NAME
-	FROM CRIME 
-	INNER JOIN CRIMINAL_CRIME 
-		ON CRIME.ID_CRIME = CRIMINAL_CRIME.ID_CRIME 
-	INNER JOIN CRIME_TYPE 
-		ON CRIMINAL_CRIME.ID_CRIME_TYPE = CRIME_TYPE.ID_CRIME_TYPE
-	INNER JOIN CRIMINAL 
-		ON CRIMINAL_CRIME.ID_CRIMINAL = CRIMINAL.ID_CRIMINAL
-	INNER JOIN WEAPON_CRIME 
-		ON WEAPON_CRIME.ID_CRIME = CRIME.ID_CRIME
-	INNER JOIN WEAPON 
-		ON WEAPON.ID_WEAPON = WEAPON_CRIME.ID_WEAPON 
-	INNER JOIN WEAPON_TYPE 
-		ON WEAPON_TYPE.ID_WEAPON_TYPE = WEAPON.ID_WEAPON_TYPE
-	INNER JOIN VICTIM_CRIME 
-		ON VICTIM_CRIME.ID_CRIME = CRIME.ID_CRIME
-	INNER JOIN VICTIM 
-		ON VICTIM.ID_VICTIM = VICTIM_CRIME.ID_VICTIM_CRIME
-  WHERE CRIME.ID_CRIME = ${crimeId}`);
+  async getCrimeById(crimeId) {
+    const result = await sql.doQuery(`SELECT ID_CRIME, 
+                                            TX_COUNTRY, 
+                                            DT_CRIME FROM CRIME
+                                            WHERE ID_CRIME = ${crimeId}`);
+    return result;
+  }
+
+  async getWeaponByCrimeId(crimeId) {
+    const result = await sql.doQuery(`select WEAPON_CRIME.ID_WEAPON_CRIME, 
+        WEAPON_CRIME.ID_WEAPON, 
+        WEAPON.TX_MODEL, 
+        WEAPON.ID_WEAPON_TYPE FROM
+        WEAPON_CRIME INNER JOIN WEAPON 
+         ON WEAPON_CRIME.ID_WEAPON = WEAPON.ID_WEAPON
+    WHERE WEAPON_CRIME.ID_CRIME = ${crimeId}`);
+
+    return result;
+  }
+
+  async getCriminalByCrimeId(crimeId) {
+    const result = await sql.doQuery(`SELECT CRIMINAL_CRIME.ID_CRIMINAL_CRIME, 
+                    CRIMINAL_CRIME.ID_CRIMINAL,
+                    CRIMINAL_CRIME.ID_CRIME_TYPE, 
+                    CRIMINAL.TX_NAME, 
+                    CRIME_TYPE.TX_TYPE 
+                    FROM CRIMINAL_CRIME 
+                    INNER JOIN CRIMINAL 
+                      ON CRIMINAL_CRIME.ID_CRIMINAL = CRIMINAL.ID_CRIMINAL
+                    INNER JOIN CRIME_TYPE 
+                      ON CRIMINAL_CRIME.ID_CRIME_TYPE = CRIME_TYPE.ID_CRIME_TYPE
+                    WHERE CRIMINAL_CRIME.ID_CRIME = ${crimeId}`);
+
+    return result;
+  }
+
+  async getVictimByCrimeId(crimeId) {
+    const result = await sql.doQuery(`SELECT VICTIM_CRIME.ID_VICTIM, 
+    VICTIM.TX_NAME 
+    FROM VICTIM_CRIME INNER JOIN VICTIM
+    ON VICTIM_CRIME.ID_VICTIM = VICTIM.ID_VICTIM
+  WHERE VICTIM_CRIME.ID_CRIME = ${crimeId}`);
 
     return result;
   }
@@ -87,12 +101,6 @@ class Crimes {
       })
 
     }
-    /*
-    await sql.doQuery(`INSERT INTO CRIME (TX_COUNTRY,DT_CRIME) VALUES (${crime.country},${crime.date})`);
-    await sql.doQuery(`INSERT INTO WEAPON_CRIME (ID_WEAPON,ID_CRIME) VALUES (${crime.weapon},${crime.id_crime})`);
-    await sql.doQuery(`INSERT INTO CRIMINAL_CRIME (ID_CRIMINAL,ID_CRIME, ID_CRIME_TYPE) VALUES (${crime.ID_CRIMINAL},${crime.date})`);
-    await sql.doQuery(`INSERT INTO CRIME (TX_COUNTRY,DT_CRIME) VALUES (${crime.country},${crime.date})`);
-  */
   }
 }
 
