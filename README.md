@@ -16,7 +16,7 @@ presente nos requisitos abaixo, sinta-se livre para fazê-la.</p>
 <h3>Instruções</h3>
 <p>Para rodar o projeto faça o clone do projeto e rode o comando:</p>
 <p>npm install ou yarn</p>
-<p>Edite as configurações de conexão com seu banco de dados MYSQL no diretório "src/config/db.js"/p>
+<p>Edite as configurações de conexão com seu banco de dados MYSQL no diretório "src/config/db.js"</p>
 <p>Para startar o server Express rode o comando "npm run dev ou yarn dev"</>
   
  <h3>Rotas</h3>
